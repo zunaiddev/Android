@@ -9,9 +9,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+
 public class MainActivity extends AppCompatActivity {
     ViewPager2 viewPager;
     MyViewPagerAdapter adapter;
+    TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         viewPager = findViewById(R.id.viewPager);
+        tabLayout = findViewById(R.id.tabLayout);
+
         adapter = new MyViewPagerAdapter(getSupportFragmentManager(), getLifecycle());
 
         adapter.addFragment(new Fragment1());
@@ -34,5 +40,10 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
         viewPager.setAdapter(adapter);
 
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> {
+                    tab.setText("Fragment" + (position + 1));
+                }
+        ).attach();
     }
 }
